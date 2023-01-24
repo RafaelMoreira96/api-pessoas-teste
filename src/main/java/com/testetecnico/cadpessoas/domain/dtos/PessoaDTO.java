@@ -5,7 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.testetecnico.cadpessoas.domain.Endereco;
 import com.testetecnico.cadpessoas.domain.Pessoa;
 

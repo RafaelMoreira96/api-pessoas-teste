@@ -21,12 +21,15 @@ public class EnderecoService {
 
   // Adicionar uma pessoa
   public Endereco create(@Valid EnderecoDTO eDTO) {
-    // Instanciando o objeto endereco
+    // Instanciando o objeto endereco e o pessoa
     Endereco e = new Endereco();
-
+    Pessoa p = new Pessoa();
     // Obtendo o objeto Pessoa, do atributo 'pessoa' do EnderecoDTO.
     Optional<Pessoa> obj = pessoaRepository.findById(eDTO.getPessoa());
-    Pessoa p = obj.get();
+
+    if (obj.isPresent()) {
+      p = obj.get();
+    }
 
     // Verificação de existência de um endereço principal, para que não haja dois
     if (eDTO.getPrincipalEnd().equals(true)) {
