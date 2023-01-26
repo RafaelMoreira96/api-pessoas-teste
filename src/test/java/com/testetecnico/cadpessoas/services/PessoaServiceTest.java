@@ -3,6 +3,7 @@ package com.testetecnico.cadpessoas.services;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
@@ -99,7 +100,20 @@ public class PessoaServiceTest {
   }
 
   @Test
-  void testCreate() {}
+  void whenCreateThenReturnSuccess() {
+    when(repository.save(any())).thenReturn(pessoa);
+
+    Calendar dn = Calendar.getInstance();
+    dn.set(1996, 6, 31);
+
+    Pessoa response = pessoaService.create(pessoaDTO);
+
+    assertNotNull(response);
+    assertEquals(Pessoa.class, response.getClass());
+    assertEquals(ID, response.getId());
+    assertEquals(NOME, response.getNome());
+    assertEquals(dn.getTime().toString(), response.getDataNascimento().toString());
+  }
 
   @Test
   void testUpdate() {}
