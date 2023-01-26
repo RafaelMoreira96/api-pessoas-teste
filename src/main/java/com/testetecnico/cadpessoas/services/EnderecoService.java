@@ -5,7 +5,7 @@ import com.testetecnico.cadpessoas.domain.Pessoa;
 import com.testetecnico.cadpessoas.domain.dtos.EnderecoDTO;
 import com.testetecnico.cadpessoas.repositories.EnderecoRepository;
 import com.testetecnico.cadpessoas.repositories.PessoaRepository;
-import com.testetecnico.cadpessoas.services.exceptions.IdentityObjectException;
+import com.testetecnico.cadpessoas.services.exceptions.DataIntegrityException;
 import jakarta.validation.Valid;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class EnderecoService {
     if (enderecoDTO.getPrincipalEnd().equals(true)) {
       for (Endereco temp : p.getEnderecos()) {
         if (temp.getPrincipalEnd().equals(true)) {
-          throw new IdentityObjectException("Endereço principal já existe");
+          throw new DataIntegrityException("Endereço principal já existe");
         }
       }
     }

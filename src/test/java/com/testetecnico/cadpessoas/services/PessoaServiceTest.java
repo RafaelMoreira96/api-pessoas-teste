@@ -6,15 +6,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-import com.testetecnico.cadpessoas.domain.Endereco;
-import com.testetecnico.cadpessoas.domain.Pessoa;
-import com.testetecnico.cadpessoas.domain.dtos.PessoaDTO;
-import com.testetecnico.cadpessoas.repositories.PessoaRepository;
-import com.testetecnico.cadpessoas.services.exceptions.ObjectNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -22,11 +19,17 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.testetecnico.cadpessoas.domain.Endereco;
+import com.testetecnico.cadpessoas.domain.Pessoa;
+import com.testetecnico.cadpessoas.domain.dtos.PessoaDTO;
+import com.testetecnico.cadpessoas.repositories.PessoaRepository;
+import com.testetecnico.cadpessoas.services.exceptions.ObjectNotFoundException;
+
 @SpringBootTest
 public class PessoaServiceTest {
   private static final int ID = 1;
   private static final String NOME = "RAFAEL";
-  private static final String EXCECAO = "Pessoa não encontrada! ID: " + ID;
+  private static final String OBJETO_NAO_ENCONTRADO = "Pessoa não encontrada! ID: " + ID;
 
   @InjectMocks
   private PessoaService pessoaService;
@@ -51,12 +54,16 @@ public class PessoaServiceTest {
   void whenFindByIdThenReturnAnPessoaInstance() {
     when(repository.findById(anyInt())).thenReturn(optionalPessoa);
 
+    Calendar dn = Calendar.getInstance();
+    dn.set(1996, 6, 31);
+
     Pessoa response = pessoaService.findById(ID);
 
     assertNotNull(response);
     assertEquals(Pessoa.class, response.getClass());
     assertEquals(ID, response.getId());
     assertEquals(NOME, response.getNome());
+    assertEquals(dn.getTime().toString(), response.getDataNascimento().toString());
     assertIterableEquals(listaEndereco, response.getEnderecos());
   }
 
@@ -64,20 +71,32 @@ public class PessoaServiceTest {
   @Test
   void whenFindByIdThenReturnAnObjectNotFoundException() {
     when(repository.findById(anyInt()))
-      .thenThrow(
-        new ObjectNotFoundException(EXCECAO)
-      );
+      .thenThrow(new ObjectNotFoundException(OBJETO_NAO_ENCONTRADO));
 
     try {
       pessoaService.findById(ID);
     } catch (Exception ex) {
       assertEquals(ObjectNotFoundException.class, ex.getClass());
-      assertEquals(EXCECAO, ex.getMessage());
+      assertEquals(OBJETO_NAO_ENCONTRADO, ex.getMessage());
     }
   }
 
   @Test
-  void testFindAll() {}
+  void whenFindAllThenReturnAnListOfPessoas() {
+    when(repository.findAll()).thenReturn(List.of(pessoa));
+
+    Calendar dn = Calendar.getInstance();
+    dn.set(1996, 6, 31);
+
+    List<Pessoa> response = pessoaService.findAll();
+    assertNotNull(response);
+    assertEquals(1, response.size());
+    assertEquals(Pessoa.class, response.get(0).getClass());
+    assertEquals(ID, response.get(0).getId());
+    assertEquals(NOME, response.get(0).getNome());
+    assertEquals(dn.getTime().toString(), response.get(0).getDataNascimento().toString());
+    assertIterableEquals(listaEndereco, response.get(0).getEnderecos());
+  }
 
   @Test
   void testCreate() {}
