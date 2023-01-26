@@ -20,19 +20,21 @@ public class EnderecoService {
   private PessoaRepository pessoaRepository;
 
   // Adicionar uma pessoa
-  public Endereco create(@Valid EnderecoDTO eDTO) {
+  public Endereco create(@Valid EnderecoDTO enderecoDTO) {
     // Instanciando o objeto endereco e o pessoa
     Endereco e = new Endereco();
     Pessoa p = new Pessoa();
-    // Obtendo o objeto Pessoa, do atributo 'pessoa' do EnderecoDTO.
-    Optional<Pessoa> obj = pessoaRepository.findById(eDTO.getPessoa());
 
+    // Obtendo o objeto Pessoa, do atributo 'pessoa' do EnderecoDTO.
+    Optional<Pessoa> obj = pessoaRepository.findById(enderecoDTO.getPessoa());
+
+    // Verificando se a variável 'obj' está populada.
     if (obj.isPresent()) {
       p = obj.get();
     }
 
     // Verificação de existência de um endereço principal, para que não haja dois
-    if (eDTO.getPrincipalEnd().equals(true)) {
+    if (enderecoDTO.getPrincipalEnd().equals(true)) {
       for (Endereco temp : p.getEnderecos()) {
         if (temp.getPrincipalEnd().equals(true)) {
           throw new IdentityObjectException("Endereço principal já existe");
@@ -41,14 +43,13 @@ public class EnderecoService {
     }
 
     // Criando o objeto Endereco
-
     e.setId(null);
-    e.setLogradouro(eDTO.getLogradouro());
-    e.setCep(eDTO.getCep());
-    e.setNumero(eDTO.getNumero());
-    e.setCidade(eDTO.getCidade());
+    e.setLogradouro(enderecoDTO.getLogradouro());
+    e.setCep(enderecoDTO.getCep());
+    e.setNumero(enderecoDTO.getNumero());
+    e.setCidade(enderecoDTO.getCidade());
     e.setPessoa(p);
-    e.setPrincipalEnd(eDTO.getPrincipalEnd());
+    e.setPrincipalEnd(enderecoDTO.getPrincipalEnd());
 
     // Salvando
     return repository.save(e);

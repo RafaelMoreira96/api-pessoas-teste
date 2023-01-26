@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 class CadpessoasApplicationTests {
 
 	@Test
-	void contextLoads() {
+	void main() {
+		CadpessoasApplication.main(new String[] {});
 	}
-
 }
