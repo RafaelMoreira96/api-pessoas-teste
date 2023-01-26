@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +29,8 @@ import com.testetecnico.cadpessoas.services.exceptions.ObjectNotFoundException;
 public class PessoaServiceTest {
   private static final int ID = 1;
   private static final String NOME = "RAFAEL";
-  private static final String OBJETO_NAO_ENCONTRADO = "Pessoa não encontrada! ID: " + ID;
+  private static final String OBJETO_NAO_ENCONTRADO =
+    "Pessoa não encontrada! ID: " + ID;
 
   @InjectMocks
   private PessoaService pessoaService;
@@ -64,7 +64,10 @@ public class PessoaServiceTest {
     assertEquals(Pessoa.class, response.getClass());
     assertEquals(ID, response.getId());
     assertEquals(NOME, response.getNome());
-    assertEquals(dn.getTime().toString(), response.getDataNascimento().toString());
+    assertEquals(
+      dn.getTime().toString(),
+      response.getDataNascimento().toString()
+    );
     assertIterableEquals(listaEndereco, response.getEnderecos());
   }
 
@@ -82,6 +85,7 @@ public class PessoaServiceTest {
     }
   }
 
+  // Teste para listagem de Pessoas
   @Test
   void whenFindAllThenReturnAnListOfPessoas() {
     when(repository.findAll()).thenReturn(List.of(pessoa));
@@ -95,10 +99,14 @@ public class PessoaServiceTest {
     assertEquals(Pessoa.class, response.get(0).getClass());
     assertEquals(ID, response.get(0).getId());
     assertEquals(NOME, response.get(0).getNome());
-    assertEquals(dn.getTime().toString(), response.get(0).getDataNascimento().toString());
+    assertEquals(
+      dn.getTime().toString(),
+      response.get(0).getDataNascimento().toString()
+    );
     assertIterableEquals(listaEndereco, response.get(0).getEnderecos());
   }
 
+  // Teste de adição de pessoa
   @Test
   void whenCreateThenReturnSuccess() {
     when(repository.save(any())).thenReturn(pessoa);
@@ -112,11 +120,31 @@ public class PessoaServiceTest {
     assertEquals(Pessoa.class, response.getClass());
     assertEquals(ID, response.getId());
     assertEquals(NOME, response.getNome());
-    assertEquals(dn.getTime().toString(), response.getDataNascimento().toString());
+    assertEquals(
+      dn.getTime().toString(),
+      response.getDataNascimento().toString()
+    );
   }
 
   @Test
-  void testUpdate() {}
+  void whenUpdateThenReturnSuccess() {
+    when(repository.findById(ID)).thenReturn(Optional.of(pessoa));
+    when(repository.save(any())).thenReturn(pessoa);
+
+    Calendar dn = Calendar.getInstance();
+    dn.set(1996, 6, 31);
+
+    Pessoa response = pessoaService.update(ID, pessoaDTO);
+
+    assertNotNull(response);
+    assertEquals(Pessoa.class, response.getClass());
+    assertEquals(ID, response.getId());
+    assertEquals(NOME, response.getNome());
+    assertEquals(
+      dn.getTime().toString(),
+      response.getDataNascimento().toString()
+    );
+  }
 
   private void startPessoa() {
     // Criar um "Calendar", para inserir a data de nascimento de "Pessoa"
@@ -127,16 +155,7 @@ public class PessoaServiceTest {
     pessoa = new Pessoa(ID, NOME, dn.getTime());
 
     // Instanciação de Endereco
-    endereco =
-      new Endereco(
-        1,
-        "Logra Test",
-        "CEP Test",
-        "Num Test",
-        "City Test",
-        pessoa,
-        true
-      );
+    endereco = new Endereco(1, "Logra Test", "CEP Test", "Num Test", "City Test", pessoa, true);
     listaEndereco.add(endereco);
     pessoa.setEnderecos(listaEndereco);
 

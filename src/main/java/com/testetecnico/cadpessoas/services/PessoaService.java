@@ -47,21 +47,21 @@ public class PessoaService {
   }
 
   // Adicionar uma pessoa
-  public Pessoa create(@Valid PessoaDTO pDTO) {
+  public Pessoa create(@Valid PessoaDTO pessoaDTO) {
     Pessoa p = new Pessoa();
     p.setId(null);
-    p.setNome(pDTO.getNome());
-    p.setDataNascimento(pDTO.getDataNascimento());
+    p.setNome(pessoaDTO.getNome());
+    p.setDataNascimento(pessoaDTO.getDataNascimento());
     p.setEnderecos(null);
     return repository.save(p);
   }
 
   // Atualizar informações de uma pessoa
-  public Pessoa update(Integer id, @Valid PessoaDTO pDTO) {
+  public Pessoa update(Integer id, @Valid PessoaDTO pessoaDTO) {
     Pessoa p = findById(id);
     
-    p.setNome(pDTO.getNome());
-    p.setDataNascimento(pDTO.getDataNascimento());
+    p.setNome(pessoaDTO.getNome());
+    p.setDataNascimento(pessoaDTO.getDataNascimento());
 
     return repository.save(p);
   }
