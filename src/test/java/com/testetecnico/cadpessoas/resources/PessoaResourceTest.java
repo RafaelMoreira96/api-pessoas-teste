@@ -6,13 +6,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 
-import com.testetecnico.cadpessoas.domain.Endereco;
-import com.testetecnico.cadpessoas.domain.Pessoa;
-import com.testetecnico.cadpessoas.domain.dtos.PessoaDTO;
-import com.testetecnico.cadpessoas.services.PessoaService;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -21,6 +18,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
+import com.testetecnico.cadpessoas.domain.Endereco;
+import com.testetecnico.cadpessoas.domain.Pessoa;
+import com.testetecnico.cadpessoas.domain.dtos.PessoaDTO;
+import com.testetecnico.cadpessoas.services.PessoaService;
 
 @SpringBootTest
 public class PessoaResourceTest {

@@ -21,7 +21,6 @@ import org.springframework.http.ResponseEntity;
 import com.testetecnico.cadpessoas.domain.Endereco;
 import com.testetecnico.cadpessoas.domain.Pessoa;
 import com.testetecnico.cadpessoas.domain.dtos.EnderecoDTO;
-import com.testetecnico.cadpessoas.domain.dtos.PessoaDTO;
 import com.testetecnico.cadpessoas.services.EnderecoService;
 
 @SpringBootTest
