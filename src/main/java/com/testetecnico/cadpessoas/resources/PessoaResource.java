@@ -47,8 +47,8 @@ public class PessoaResource {
 
   // Adicionar uma pessoa
   @PostMapping
-  public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaDTO pDTO) {
-    Pessoa p = service.create(pDTO);
+  public ResponseEntity<PessoaDTO> create(@Valid @RequestBody PessoaDTO pessoaDTO) {
+    Pessoa p = service.create(pessoaDTO);
     URI uri = ServletUriComponentsBuilder
       .fromCurrentRequestUri()
       .path("/{id}")
@@ -61,9 +61,9 @@ public class PessoaResource {
   @PutMapping(value = "/{id}")
   public ResponseEntity<PessoaDTO> update(
     @PathVariable Integer id,
-    @RequestBody PessoaDTO pDTO
+    @RequestBody PessoaDTO pessoaDTO
   ) {
-    Pessoa p = service.update(id, pDTO);
-    return ResponseEntity.ok().body(new PessoaDTO(p));
+    Pessoa pessoa = service.update(id, pessoaDTO);
+    return ResponseEntity.ok().body(new PessoaDTO(pessoa));
   }
 }

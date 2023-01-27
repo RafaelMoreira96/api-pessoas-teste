@@ -24,9 +24,9 @@ public class EnderecoResource {
 
   // Adicionar endereço à pessoa
   @PostMapping
-  public ResponseEntity<EnderecoDTO> create(@Valid @RequestBody EnderecoDTO eDTO){
-   Endereco e = service.create(eDTO);
-   URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(e.getId()).toUri();
+  public ResponseEntity<EnderecoDTO> create(@Valid @RequestBody EnderecoDTO enderecoDTO){
+   Endereco endereco = service.create(enderecoDTO);
+   URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}").buildAndExpand(endereco.getId()).toUri();
    return ResponseEntity.created(uri).build();
   }
 
